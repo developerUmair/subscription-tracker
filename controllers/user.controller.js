@@ -1,11 +1,4 @@
-import rateLimit from "express-rate-limit";
 import User from "../models/user.model.js";
-
-const signLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 10,
-  message: "Too many requests from the same IP address, please try again after a minute"
-})
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -21,7 +14,7 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
-export const getUser = [signLimiter, async (req, res, next) => {
+export const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
 
@@ -39,4 +32,4 @@ export const getUser = [signLimiter, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}];
+};
